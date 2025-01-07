@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+from sklearn.ensemble import RandomForestClassifier
 
 # Load saved models, scalers, and encoders
 model = joblib.load('random_forest_model.pkl')
