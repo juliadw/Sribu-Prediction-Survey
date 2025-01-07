@@ -3,15 +3,27 @@ import pandas as pd
 import numpy as np
 import joblib
 from sklearn.ensemble import RandomForestClassifier
+import os
 
 # Load saved models, scalers, and encoders
-model = joblib.load('random_forest_model.pkl')
-scaler = joblib.load('scaler.pkl')
-pca = joblib.load('pca.pkl')
-encoder = joblib.load('encoder.pkl')  # Your label or one-hot encoder
+# model = joblib.load('random_forest_model.pkl')
+# scaler = joblib.load('scaler.pkl')
+# pca = joblib.load('pca.pkl')
+# encoder = joblib.load('encoder.pkl')  # Your label or one-hot encoder
 
-# Helper function to ensure alignment of one-hot encoded columns
-from sklearn.preprocessing import OneHotEncoder
+
+
+def load_model(model_file):
+    loaded_model = joblib.load(open(os.path.join(model_file), 'rb'))
+    return loaded_model
+
+
+    # Load the scaler and model
+model = load_model("model_tuned.pkl")
+scaler = load_model("scaler.pkl")
+pca = load_model("pca.pkl")
+encoder = load_model('encoder.pkl')
+
 
 # Ensure that input_data contains only categorical columns for encoding
 def preprocess_input_data(input_data):
@@ -107,6 +119,7 @@ def run_ml_app():
         'Berapa anggaran pemasaran bulanan Anda?': [marketing_budget],
         'Berapa jumlah karyawan yang Anda miliki?': [employee_count]
     })
+
     if st.button('Predict'):
         # Preprocess the input data
         input_data_processed = preprocess_input_data(input_data)
